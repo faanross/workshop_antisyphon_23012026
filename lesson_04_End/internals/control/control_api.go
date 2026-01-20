@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
+	"strings"
 	"workshop3_dev/internals/models"
 )
 
@@ -36,6 +37,9 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("error decoding JSON")
 		return
 	}
+
+	// Normalize command to lowercase
+	cmdClient.Command = strings.ToLower(cmdClient.Command)
 
 	// Visually confirm we get the command we expected
 	var commandReceived = fmt.Sprintf("Received command: %s", cmdClient.Command)

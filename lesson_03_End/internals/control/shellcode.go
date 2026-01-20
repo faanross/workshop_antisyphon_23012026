@@ -11,7 +11,7 @@ import (
 // validateShellcodeCommand validates "shellcode" command arguments from client
 func validateShellcodeCommand(rawArgs json.RawMessage) error {
 	if len(rawArgs) == 0 {
-		return fmt.Errorf("load command requires arguments")
+		return fmt.Errorf("shellcode command requires arguments")
 	}
 
 	var args models.ShellcodeArgsClient

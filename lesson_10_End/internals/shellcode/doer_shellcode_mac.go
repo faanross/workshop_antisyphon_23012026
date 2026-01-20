@@ -20,7 +20,7 @@ func (ms *macShellcode) DoShellcode(dllBytes []byte, exportName string) (models.
 	fmt.Println("|❗ SHELLCODE DOER MACOS| This feature has not yet been implemented for MacOS.")
 
 	result := models.ShellcodeResult{
-		Message: "FAILURE",
+		Message: "FAILURE: Not implemented on macOS",
 	}
 	return result, nil
 }
