@@ -16,31 +16,23 @@ import (
 // 4. Validate that ExportName is not empty
 // 5. Check if the file exists using os.Stat
 func validateShellcodeCommand(rawArgs json.RawMessage) error {
-	// TODO: Check if arguments are empty
+
 	if len(rawArgs) == 0 {
 		return fmt.Errorf("shellcode command requires arguments")
 	}
 
 	// TODO: Create variable to hold unmarshalled arguments
-	var args models.ShellcodeArgsClient
 
-	// TODO: Unmarshal the raw JSON into the args struct
 	if err := json.Unmarshal(rawArgs, &args); err != nil {
 		return fmt.Errorf("invalid argument format: %w", err)
 	}
 
-	// TODO: Validate FilePath is not empty
 	if args.FilePath == "" {
 		return fmt.Errorf("file_path is required")
 	}
 
 	// TODO: Validate ExportName is not empty
-	if args.ExportName == "" {
-		return fmt.Errorf("export_name is required")
-	}
 
-	// TODO: Check if file exists using os.Stat
-	// Hint: os.IsNotExist(err) checks if file doesn't exist
 	if _, err := os.Stat(args.FilePath); os.IsNotExist(err) {
 		return fmt.Errorf("file does not exist: %s", args.FilePath)
 	}

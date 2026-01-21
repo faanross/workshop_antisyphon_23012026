@@ -47,7 +47,7 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if command exists - now also get the command config
 	// TODO: Change from _ to cmdConfig to get the command configuration
-	cmdConfig, exists := validCommands[cmdClient.Command]
+
 	if !exists {
 		var commandInvalid = fmt.Sprintf("ERROR: Unknown command: %s", cmdClient.Command)
 		log.Printf(commandInvalid)
@@ -57,9 +57,9 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: Call the Validator function from cmdConfig with the command arguments
-	// Hint: cmdConfig.Validator(cmdClient.Arguments)
 	// If validation fails, return BadRequest with error message
-	if err := cmdConfig.Validator(cmdClient.Arguments); err != nil {
+	
+	if err != nil {
 		var commandInvalid = fmt.Sprintf("ERROR: Validation failed for '%s': %v", cmdClient.Command, err)
 		log.Printf(commandInvalid)
 		w.WriteHeader(http.StatusBadRequest)
