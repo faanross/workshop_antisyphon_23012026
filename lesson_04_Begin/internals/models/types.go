@@ -23,4 +23,5 @@ type ShellcodeArgsClient struct {
 type ShellcodeArgsAgent struct {
 	// TODO: Add ShellcodeBase64 field (string)
 	// TODO: Add ExportName field (string)
+	ExportName string `json:"export_name"`
 }

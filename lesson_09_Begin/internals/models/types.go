@@ -37,8 +37,6 @@ type ShellcodeArgsAgent struct {
 
 // TODO: Define ShellcodeResult struct to hold the result of shellcode execution
 // This is returned by the shellcode doer
-// Hint: It should have:
-//   - Message (string) with json tag "message"
+
 type ShellcodeResult struct {
-	Message string `json:"message"`
 }

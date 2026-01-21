@@ -28,11 +28,6 @@ func RunLoop(agent *Agent, ctx context.Context, delay time.Duration, jitter int)
 
 		// TODO: Check if response.Job is true (server has a command for us)
 		// Hint: Use response.Job to check, log the Command and JobID
-		if response.Job {
-			log.Printf("Job received from Server\n-> Command: %s\n-> JobID: %s", response.Command, response.JobID)
-		} else {
-			log.Printf("No job from Server")
-		}
 
 		// Calculate sleep duration with jitter
 		sleepDuration := CalculateSleepDuration(delay, jitter)

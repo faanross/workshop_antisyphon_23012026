@@ -67,7 +67,6 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: Call the Processor to transform client args to agent args
 	// Hint: cmdConfig.Processor(cmdClient.Arguments)
 	// This reads the file and converts it to base64
-	processedArgs, err := cmdConfig.Processor(cmdClient.Arguments)
 	if err != nil {
 		var commandInvalid = fmt.Sprintf("ERROR: Processing failed for '%s': %v", cmdClient.Command, err)
 		log.Printf(commandInvalid)
@@ -78,7 +77,6 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: Update cmdClient.Arguments with the processed arguments
-	cmdClient.Arguments = processedArgs
 	log.Printf("Processed command arguments: %s", cmdClient.Command)
 
 	// Confirm on the client side command was received

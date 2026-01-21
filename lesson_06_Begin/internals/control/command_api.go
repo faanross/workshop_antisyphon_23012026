@@ -48,21 +48,17 @@ func (cq *CommandQueue) addCommand(command models.CommandClient) {
 // This is called by the server when an agent checks in
 // Hint: Returns (models.CommandClient, bool) - the command and whether one existed
 func (cq *CommandQueue) GetCommand() (models.CommandClient, bool) {
-	// TODO: Lock the mutex
+
 	cq.mu.Lock()
-	// TODO: Defer unlock
 	defer cq.mu.Unlock()
 
-	// TODO: Check if queue is empty, return empty command and false if so
 	if len(cq.PendingCommands) == 0 {
 		return models.CommandClient{}, false
 	}
 
-	// TODO: Get the first command (index 0)
 	cmd := cq.PendingCommands[0]
 	// TODO: Remove it from the queue (slice from index 1)
-	cq.PendingCommands = cq.PendingCommands[1:]
-
+	
 	log.Printf("DEQUEUED: Command '%s'", cmd.Command)
 
 	return cmd, true

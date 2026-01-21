@@ -6,12 +6,12 @@ import "encoding/json"
 var validCommands = map[string]struct {
 	Validator CommandValidator
 	// TODO: Add Processor field of type CommandProcessor
-	Processor CommandProcessor
+
 }{
 	"shellcode": {
 		Validator: validateShellcodeCommand,
 		// TODO: Assign processShellcodeCommand as the Processor
-		Processor: processShellcodeCommand,
+
 	},
 }
 
@@ -21,4 +21,3 @@ type CommandValidator func(json.RawMessage) error
 // TODO: Define CommandProcessor as a function type
 // Hint: It takes json.RawMessage and returns (json.RawMessage, error)
 // This transforms client args into agent args (e.g., reads file and encodes to base64)
-type CommandProcessor func(json.RawMessage) (json.RawMessage, error)

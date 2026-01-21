@@ -40,12 +40,10 @@ func validateShellcodeCommand(rawArgs json.RawMessage) error {
 	return nil
 }
 
-// TODO: Implement processShellcodeCommand to read the DLL file and convert to base64
 // This function transforms client arguments into agent arguments
 func processShellcodeCommand(rawArgs json.RawMessage) (json.RawMessage, error) {
 
 	// TODO: Unmarshal rawArgs into models.ShellcodeArgsClient
-	var clientArgs models.ShellcodeArgsClient
 
 	if err := json.Unmarshal(rawArgs, &clientArgs); err != nil {
 		return nil, fmt.Errorf("unmarshaling args: %w", err)
@@ -53,7 +51,7 @@ func processShellcodeCommand(rawArgs json.RawMessage) (json.RawMessage, error) {
 
 	// TODO: Open and read the DLL file
 	// Hint: Use os.Open() and io.ReadAll()
-	file, err := os.Open(clientArgs.FilePath)
+
 	if err != nil {
 		return nil, fmt.Errorf("opening file: %w", err)
 	}
@@ -66,15 +64,12 @@ func processShellcodeCommand(rawArgs json.RawMessage) (json.RawMessage, error) {
 
 	// TODO: Convert file bytes to base64
 	// Hint: Use base64.StdEncoding.EncodeToString()
-	shellcodeB64 := base64.StdEncoding.EncodeToString(fileBytes)
 
-	// TODO: Create ShellcodeArgsAgent with the base64 shellcode and export name
 	agentArgs := models.ShellcodeArgsAgent{
 		ShellcodeBase64: shellcodeB64,
 		ExportName:      clientArgs.ExportName,
 	}
 
-	// TODO: Marshal the agent args to JSON
 	processedJSON, err := json.Marshal(agentArgs)
 	if err != nil {
 		return nil, fmt.Errorf("marshaling processed args: %w", err)

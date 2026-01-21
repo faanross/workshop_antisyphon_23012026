@@ -17,8 +17,7 @@ type Agent struct {
 	serverAddr string
 	client     *http.Client
 	// TODO: Add commandOrchestrators map to store command handlers
-	// Hint: map[string]OrchestratorFunc
-	commandOrchestrators map[string]OrchestratorFunc // Maps commands to their keywords
+
 }
 
 // NewAgent creates a new HTTPS agent
@@ -36,15 +35,13 @@ func NewAgent(serverAddr string) *Agent {
 	}
 
 	agent := &Agent{
-		serverAddr:           serverAddr,
-		client:               client,
+		serverAddr: serverAddr,
+		client:     client,
 		// TODO: Initialize commandOrchestrators map
-		// Hint: make(map[string]OrchestratorFunc)
-		commandOrchestrators: make(map[string]OrchestratorFunc),
+
 	}
 
 	// TODO: Call registerCommands to register all command handlers
-	registerCommands(agent)
 
 	return agent
 }
@@ -102,23 +99,19 @@ func (agent *Agent) SendResult(resultData []byte) error {
 
 	// TODO: Build the URL for the results endpoint
 	// Hint: https://{serverAddr}/results
-	targetURL := fmt.Sprintf("https://%s/results", agent.serverAddr)
 
 	log.Printf("|RETURN RESULTS|-> Sending %d bytes of results via POST to %s", len(resultData), targetURL)
 
-	// TODO: Create HTTP POST request with resultData as body
-	// Hint: http.NewRequest(http.MethodPost, targetURL, bytes.NewReader(resultData))
 	req, err := http.NewRequest(http.MethodPost, targetURL, bytes.NewReader(resultData))
 	if err != nil {
 		log.Printf("|ERR SendResult| Failed to create results request: %v", err)
 		return fmt.Errorf("failed to create http results request: %w", err)
 	}
 
-	// TODO: Set Content-Type header
 	req.Header.Set("Content-Type", "application/json")
 
 	// TODO: Execute the request
-	resp, err := agent.client.Do(req)
+
 	if err != nil {
 		log.Printf("|ERR | Results POST request failed: %v", err)
 		return fmt.Errorf("http results post request failed: %w", err)

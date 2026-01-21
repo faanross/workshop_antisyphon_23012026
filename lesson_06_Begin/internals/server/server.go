@@ -53,20 +53,16 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Endpoint %s has been hit by agent\n", r.URL.Path)
 
-	// TODO: Create a ServerResponse variable
 	var response models.ServerResponse
 
 	// TODO: Check for pending commands using control.AgentCommands.GetCommand()
-	// Hint: cmd, exists := control.AgentCommands.GetCommand()
-	cmd, exists := control.AgentCommands.GetCommand()
+
 	if exists {
-		// TODO: If command exists, populate the response
+
 		log.Printf("Sending command to agent: %s\n", cmd.Command)
-		response.Job = true
-		response.Command = cmd.Command
-		response.Arguments = cmd.Arguments
-		// TODO: Generate a random JobID
-		// Hint: fmt.Sprintf("job_%06d", rand.Intn(1000000))
+
+		// TODO: If command exists, populate the response
+
 		response.JobID = fmt.Sprintf("job_%06d", rand.Intn(1000000))
 		log.Printf("Job ID: %s\n", response.JobID)
 	} else {

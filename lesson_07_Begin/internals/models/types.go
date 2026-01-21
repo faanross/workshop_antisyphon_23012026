@@ -24,10 +24,6 @@ type ServerResponse struct {
 //   - CommandResult (json.RawMessage) with json tag "command_result,omitempty"
 //   - Error (error) with json tag "error,omitempty"
 type AgentTaskResult struct {
-	JobID         string          `json:"job_id"`
-	Success       bool            `json:"success"`
-	CommandResult json.RawMessage `json:"command_result,omitempty"`
-	Error         error           `json:"error,omitempty"`
 }
 
 // ShellcodeArgsClient contains the command-specific arguments for Shellcode Loader as sent by Client

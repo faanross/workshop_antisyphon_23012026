@@ -80,8 +80,6 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Processed command arguments: %s", cmdClient.Command)
 
 	// TODO: Queue the validated and processed command for agent pickup
-	// Hint: Call AgentCommands.addCommand(cmdClient)
-	AgentCommands.addCommand(cmdClient)
 
 	// Confirm on the client side command was received
 	w.WriteHeader(http.StatusOK)

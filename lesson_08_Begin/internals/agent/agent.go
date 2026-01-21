@@ -86,9 +86,8 @@ func (agent *Agent) Send(ctx context.Context) (*models.ServerResponse, error) {
 
 // TODO: Update registerCommands to register the shellcode orchestrator
 func registerCommands(agent *Agent) {
-	// TODO: Register the shellcode command orchestrator
-	// Hint: agent.commandOrchestrators["shellcode"] = (*Agent).orchestrateShellcode
-	agent.commandOrchestrators["shellcode"] = (*Agent).orchestrateShellcode
+
+	//agent.commandOrchestrators["shellcode"] = (*Agent).orchestrateShellcode
 	// Register other commands here in the future
 }
 

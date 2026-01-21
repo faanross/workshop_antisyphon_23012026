@@ -67,13 +67,12 @@ func (agent *Agent) Send(ctx context.Context) (*models.ServerResponse, error) {
 		return nil, fmt.Errorf("reading response: %w", err)
 	}
 
-	// TODO: Unmarshal JSON body into ServerResponse
-	// Hint: Use json.Unmarshal(body, &serverResp)
+	// TODO: Create new serverResp of type models.ServerResponse
+
 	var serverResp models.ServerResponse
 	if err := json.Unmarshal(body, &serverResp); err != nil {
 		return nil, fmt.Errorf("unmarshaling response: %w", err)
 	}
 
-	// TODO: Return the parsed response (pointer)
 	return &serverResp, nil
 }

@@ -16,10 +16,6 @@ type CommandClient struct {
 //   - Command (string) with json tag "command,omitempty" - the command name
 //   - Arguments (json.RawMessage) with json tag "data,omitempty" - command args
 type ServerResponse struct {
-	Job       bool            `json:"job"`
-	JobID     string          `json:"job_id,omitempty"`
-	Command   string          `json:"command,omitempty"`
-	Arguments json.RawMessage `json:"data,omitempty"`
 }
 
 // ShellcodeArgsClient contains the command-specific arguments for Shellcode Loader as sent by Client

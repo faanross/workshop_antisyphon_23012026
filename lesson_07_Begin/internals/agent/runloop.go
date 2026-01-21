@@ -29,8 +29,7 @@ func RunLoop(agent *Agent, ctx context.Context, delay time.Duration, jitter int)
 		if response.Job {
 			log.Printf("Job received from Server\n-> Command: %s\n-> JobID: %s", response.Command, response.JobID)
 			// TODO: Call ExecuteTask to process the command
-			// Hint: agent.ExecuteTask(response)
-			agent.ExecuteTask(response)
+
 		} else {
 			log.Printf("No job from Server")
 		}
