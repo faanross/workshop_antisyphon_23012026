@@ -28,8 +28,9 @@ func StartControlAPI() {
 // This replaces the old dummyHandler
 func commandHandler(w http.ResponseWriter, r *http.Request) {
 
-	// TODO: Create a variable of type models.CommandClient to receive the command
+	// TODO create cmdClient of our new type CommandClient
 
+	// The first thing we need to do is unmarshal the request body into the custom type
 	if err := json.NewDecoder(r.Body).Decode(&cmdClient); err != nil {
 		log.Printf("ERROR: Failed to decode JSON: %v", err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -37,11 +38,11 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: Log the received command
-	// Hint: Use fmt.Sprintf to create a message like "Received command: %s"
+	// Visually confirm we get the command we expected
+	// TODO Create a variable commandReceived, compose using Sprintf and cmdClient.Command
 	log.Printf(commandReceived)
 
+	// Confirm on the client side command was received
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(commandReceived)
-
 }

@@ -39,7 +39,6 @@ func (server *Server) Start() error {
 	r.Get("/", RootHandler)
 
 	// TODO: Add POST endpoint for receiving results from agent
-	// Hint: r.Post("/results", ResultHandler)
 
 	// Create the HTTP server
 	server.server = &http.Server{
@@ -104,13 +103,25 @@ func (server *Server) Stop() error {
 func ResultHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Endpoint %s has been hit by agent\n", r.URL.Path)
 
-	// TODO: Decode the incoming result into models.AgentTaskResult
-	// Hint: var result models.AgentTaskResult
-	// json.NewDecoder(r.Body).Decode(&result)
+	// TODO: create result of type models.AgentTaskResult to receive result
 
-	// TODO: Unmarshal the CommandResult to get the actual message string
-	// Hint: var messageStr string
-	// json.Unmarshal(result.CommandResult, &messageStr)
+	// Decode the incoming result
+	if err := json.NewDecoder(r.Body).Decode(&result); err != nil {
+		log.Printf("ERROR: Failed to decode JSON: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("error decoding JSON")
+		return
+	}
+
+	// Unmarshal the CommandResult to get the actual message string
+	// TODO create messageStr of type str to receive message
+
+	if len(result.CommandResult) > 0 {
+		if err := json.Unmarshal(result.CommandResult, &messageStr); err != nil {
+			log.Printf("ERROR: Failed to unmarshal CommandResult: %v", err)
+			messageStr = string(result.CommandResult) // Fallback to raw bytes as string
+		}
+	}
 
 	// TODO: Log success or failure based on result.Success
 	// Hint: if !result.Success { log failure } else { log success }

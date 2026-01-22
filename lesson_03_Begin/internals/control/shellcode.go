@@ -33,6 +33,7 @@ func validateShellcodeCommand(rawArgs json.RawMessage) error {
 
 	// TODO: Validate ExportName is not empty
 
+	// Check if file exists
 	if _, err := os.Stat(args.FilePath); os.IsNotExist(err) {
 		return fmt.Errorf("file does not exist: %s", args.FilePath)
 	}

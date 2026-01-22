@@ -58,7 +58,7 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: Call the Validator function from cmdConfig with the command arguments
 	// If validation fails, return BadRequest with error message
-	
+	_, exists := validCommands[cmdClient.Command]
 	if err != nil {
 		var commandInvalid = fmt.Sprintf("ERROR: Validation failed for '%s': %v", cmdClient.Command, err)
 		log.Printf(commandInvalid)
