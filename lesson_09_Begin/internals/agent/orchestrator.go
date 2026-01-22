@@ -59,14 +59,9 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		}
 	}
 
-	// TODO: Create instance of shellcode command using the interface pattern
-	// Hint: Use shellcode.New() to get a CommandShellcode interface instance
-	commandShellcode := nil // Replace nil with the correct call
-
-	// TODO: Call the DoShellcode method on the interface
-	// Hint: shellcodeResult, err := commandShellcode.DoShellcode(rawShellcode, shellcodeArgs.ExportName)
-	var shellcodeResult models.ShellcodeResult
-	// Call the interface method here
+	// Call the "doer" function
+	commandShellcode := shellcode.New()
+	shellcodeResult, err := commandShellcode.DoShellcode(rawShellcode, shellcodeArgs.ExportName) // Call the interface method
 
 	finalResult := models.AgentTaskResult{
 		JobID: job.JobID,
