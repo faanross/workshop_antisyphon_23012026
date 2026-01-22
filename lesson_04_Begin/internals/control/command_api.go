@@ -20,4 +20,3 @@ type CommandValidator func(json.RawMessage) error
 
 // TODO: Define CommandProcessor as a function type
 // Hint: It takes json.RawMessage and returns (json.RawMessage, error)
-// This transforms client args into agent args (e.g., reads file and encodes to base64)

@@ -69,10 +69,7 @@ func (agent *Agent) Send(ctx context.Context) (*models.ServerResponse, error) {
 
 	// TODO: Create new serverResp of type models.ServerResponse
 
-	var serverResp models.ServerResponse
-	if err := json.Unmarshal(body, &serverResp); err != nil {
-		return nil, fmt.Errorf("unmarshaling response: %w", err)
-	}
+	// TODO: unmarshall body into serverResp
 
 	return &serverResp, nil
 }

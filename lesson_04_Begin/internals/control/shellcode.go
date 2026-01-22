@@ -43,7 +43,7 @@ func validateShellcodeCommand(rawArgs json.RawMessage) error {
 // This function transforms client arguments into agent arguments
 func processShellcodeCommand(rawArgs json.RawMessage) (json.RawMessage, error) {
 
-	// TODO: Unmarshal rawArgs into models.ShellcodeArgsClient
+	// TODO: create clientArgs of type models.ShellcodeArgsClient
 
 	if err := json.Unmarshal(rawArgs, &clientArgs); err != nil {
 		return nil, fmt.Errorf("unmarshaling args: %w", err)

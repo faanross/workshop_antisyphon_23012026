@@ -25,15 +25,13 @@ type CommandValidator func(json.RawMessage) error
 type CommandProcessor func(json.RawMessage) (json.RawMessage, error)
 
 // TODO: Define CommandQueue struct to store commands ready for agent pickup
-// Hint: It should have:
-//   - PendingCommands: slice of models.CommandClient
-//   - mu: sync.Mutex for thread-safe access
+
 type CommandQueue struct {
+	//   - PendingCommands: slice of models.CommandClient
+	//   - mu: sync.Mutex for thread-safe access
 }
 
 // TODO: Create a global AgentCommands variable of type CommandQueue
-// This is where validated/processed commands wait for agent pickup
-// Hint: Initialize PendingCommands with make([]models.CommandClient, 0)
 var AgentCommands = CommandQueue{}
 
 // TODO: Implement addCommand method to add a validated command to the queue

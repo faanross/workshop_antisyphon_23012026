@@ -61,7 +61,10 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 
 		log.Printf("Sending command to agent: %s\n", cmd.Command)
 
-		// TODO: If command exists, populate the response
+		// If command exists, populate the response
+		// TODO set response.Job to true
+		// TODO set response.Command
+		// TODO set response.Arguments
 
 		response.JobID = fmt.Sprintf("job_%06d", rand.Intn(1000000))
 		log.Printf("Job ID: %s\n", response.JobID)

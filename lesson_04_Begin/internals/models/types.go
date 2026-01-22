@@ -15,13 +15,7 @@ type ShellcodeArgsClient struct {
 }
 
 // TODO: Define ShellcodeArgsAgent struct for arguments sent TO the Agent
-// This is different from ShellcodeArgsClient because:
-// - Instead of FilePath, we send the actual shellcode as base64
-// Hint: It should have two fields:
-//   - ShellcodeBase64 (string) with json tag "shellcode_base64"
-//   - ExportName (string) with json tag "export_name"
 type ShellcodeArgsAgent struct {
 	// TODO: Add ShellcodeBase64 field (string)
-	// TODO: Add ExportName field (string)
 	ExportName string `json:"export_name"`
 }

@@ -45,20 +45,17 @@ func (cq *CommandQueue) addCommand(command models.CommandClient) {
 }
 
 // TODO: Implement GetCommand to retrieve and remove the next command from queue
-// This is called by the server when an agent checks in
-// Hint: Returns (models.CommandClient, bool) - the command and whether one existed
 func (cq *CommandQueue) GetCommand() (models.CommandClient, bool) {
 
 	cq.mu.Lock()
 	defer cq.mu.Unlock()
 
-	if len(cq.PendingCommands) == 0 {
-		return models.CommandClient{}, false
-	}
+	// TODO: if there is nothing in queue (PendingCommands), return false
 
-	cmd := cq.PendingCommands[0]
+	// TODO: init variable cmd equal to value at index 0 in PendingCommands
+
 	// TODO: Remove it from the queue (slice from index 1)
-	
+
 	log.Printf("DEQUEUED: Command '%s'", cmd.Command)
 
 	return cmd, true
