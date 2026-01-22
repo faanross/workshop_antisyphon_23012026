@@ -39,7 +39,8 @@ func (agent *Agent) ExecuteTask(job *models.ServerResponse) {
 	}
 
 	log.Printf("|AGENT TASK|-> Sending result for Task ID %s (%d bytes)...", job.JobID, len(resultBytes))
-	
+
+	// Send the result back to the server
 	err = agent.SendResult(resultBytes)
 	if err != nil {
 		log.Printf("|ERR AGENT TASK| Failed to send result for Task ID %s: %v", job.JobID, err)

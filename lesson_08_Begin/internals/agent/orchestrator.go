@@ -17,7 +17,6 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 
 	// Create an instance of the shellcode args struct
 	// TODO: Implement shellcodeArgs of type models.ShellcodeArgsAgent
-	var shellcodeArgs models.ShellcodeArgsAgent
 
 	// ServerResponse.Arguments contains the command-specific args, so now we unmarshal the field into the struct
 	if err := json.Unmarshal(job.Arguments, &shellcodeArgs); err != nil {
@@ -42,19 +41,11 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		}
 	}
 
-	if shellcodeArgs.ExportName == "" {
-		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| Task ID %s: ExportName is empty.", job.JobID)
-		return models.AgentTaskResult{
-			JobID:   job.JobID,
-			Success: false,
-			Error:   errors.New("ExportName must be specified for DLL execution"),
-		}
-	}
+	// TODO: Validate that ExportName is not empty
 
 	// Now let's decode our b64
 	// TODO create rawShellcode by calling base64.StdEncoding.DecodeString()
 
-	rawShellcode, err := base64.StdEncoding.DecodeString(shellcodeArgs.ShellcodeBase64)
 	if err != nil {
 		log.Printf("|❗ERR SHELLCODE ORCHESTRATOR| Task ID %s: Failed to decode ShellcodeBase64: %v", job.JobID, err)
 		return models.AgentTaskResult{
@@ -66,7 +57,7 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 
 	// Call the "doer" function
 	// TODO create commandShellcode by calling shellcode.New()
-	
+
 	shellcodeResult, err := commandShellcode.DoShellcode(rawShellcode, shellcodeArgs.ExportName)
 
 	finalResult := models.AgentTaskResult{
@@ -74,9 +65,9 @@ func (agent *Agent) orchestrateShellcode(job *models.ServerResponse) models.Agen
 		// Output will be set below after JSON encoding
 	}
 
-	outputJSON, _ := json.Marshal(string(shellcodeResult.Message))
+	// TODO Marshall shellcodeResult.Message as outputJSON
 
-	finalResult.CommandResult = outputJSON
+	// TODO Set finalResult.CommandResult equal to outputJSON
 
 	if err != nil {
 		loaderError := fmt.Sprintf("|❗ERR SHELLCODE ORCHESTRATOR| Loader execution error for TaskID %s: %v. Loader Message: %s",
